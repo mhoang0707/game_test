@@ -97,12 +97,12 @@
                             <span class="block text-center font-mono bg-white p-2 rounded-md mt-2">LM Thực Nhận = Min(30.000.000 VNĐ, [30.000.000 VNĐ * Điểm KPI / 100])</span>
                         </li>
                     </ul>
-                     <p>Nhiệm vụ của bạn là phân tích các nhóm dữ kiện dưới đây một cách khách quan để đưa ra một quyết định công bằng, vừa ghi nhận nỗ lực của anh An, vừa đảm bảo các mục tiêu chiến lược dài hạn của "Mầm Sống Xanh".</p>
+                     <p>Nhiệm vụ của bạn là phân tích các nhóm dữ kiện một cách khách quan để đưa ra một quyết định công bằng, vừa ghi nhận nỗ lực của anh An, vừa đảm bảo các mục tiêu chiến lược dài hạn của "Mầm Sống Xanh".</p>
                 </div>
             </div>
 
-            <!-- Dữ kiện trong kỳ -->
-            <div class="card p-6">
+            <!-- Dữ kiện trong kỳ (Hidden) -->
+            <div class="card p-6 hidden">
                 <h2 class="text-2xl font-semibold text-gray-700 border-b pb-3 mb-4">8 Dữ kiện hoạt động Quý 3</h2>
                 <div class="space-y-6">
                     <div class="data-group">
@@ -459,6 +459,7 @@
             // Recalculate expert bonus based on corrected score
             const expertBonusValue = maxBonus * (expertScoreValue / 100);
             const finalExpertBonus = Math.min(expertBonusValue, maxBonus);
+             document.getElementById('expert-score').textContent = expertScoreValue.toFixed(2); // Display corrected score
             document.getElementById('expert-bonus').textContent = `${finalExpertBonus.toLocaleString('vi-VN')} VNĐ`;
         });
     </script>
