@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trò Chơi Giả Lập: Đánh Giá & Trả Thù Lao</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease, opacity 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+        .btn-primary:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .input-kpi {
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 8px 12px;
+            width: 100%;
+            text-align: center;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .input-kpi:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+        .input-kpi:disabled {
+            background-color: #f3f4f6;
+            color: #6b7280;
+        }
+        th, td {
+            padding: 12px 16px;
+        }
+        .result-card {
+            border: 1px solid;
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .result-excellent { border-color: #16a34a; background-color: #f0fdf4; }
+        .result-good { border-color: #22c55e; background-color: #f0fdf4; }
+        .result-avg { border-color: #f59e0b; background-color: #fffbeb; }
+        .result-bad { border-color: #ef4444; background-color: #fef2f2; }
+        .data-group h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #1e3a8a;
+            border-bottom: 2px solid #dbeafe;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Trò Chơi Giả Lập: Đánh Giá & Trả Thù Lao</h1>
+            <p class="text-gray-600 mt-2">Dựa trên phương pháp Thẻ điểm cân bằng (BSC)</p>
+        </header>
+
+        <main class="space-y-8">
+            <!-- Bối cảnh trò chơi -->
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b pb-3 mb-4">Bối Cảnh</h2>
+                <div class="space-y-4 text-gray-700">
+                    <p>Quý 3 vừa kết thúc, một quý đầy thách thức và cơ hội cho <strong>"Mầm Sống Xanh"</strong>. Là một startup tiên phong trong lĩnh vực sản phẩm tiêu dùng bền vững, công ty đang phải đối mặt với áp lực cạnh tranh từ các sản phẩm giá rẻ và sự thay đổi trong thói quen của người tiêu dùng. Mục tiêu chiến lược của quý này không chỉ là tăng trưởng doanh thu, mà còn là củng cố lòng trung thành của khách hàng và tối ưu hóa quy trình vận hành.</p>
+                    <p>Trong vai trò là Giám đốc Vận hành, bạn được giao nhiệm vụ quan trọng: đánh giá hiệu suất của <strong>anh Nguyễn Văn An</strong>, Trưởng phòng Kinh doanh. Anh An được biết đến là một người năng nổ, sáng tạo và có khả năng thúc đẩy doanh số tốt. Tuy nhiên, Ban Giám đốc cũng có những lo ngại về việc anh đôi khi quá tập trung vào các chỉ số tài chính ngắn hạn mà có thể xem nhẹ các yếu tố về phát triển đội ngũ và trải nghiệm khách hàng lâu dài.</p>
+                    <p>Kết quả đánh giá này sẽ quyết định mức thưởng hiệu suất (Lương mềm - LM) của anh An trong quý. Các thông tin chi tiết như sau:</p>
+                    <ul class="list-disc list-inside space-y-2 pl-4 bg-gray-50 p-4 rounded-lg">
+                        <li><strong>Lương cứng (LC):</strong> 25.000.000 VNĐ/tháng.</li>
+                        <li><strong>Quỹ thưởng Lương mềm (LM):</strong> 30.000.000 VNĐ cho cả quý.</li>
+                        <li><strong>Công thức tính thưởng:</strong> Thưởng được tính theo điểm KPI, <strong>nhưng không vượt quá 30.000.000 VNĐ.</strong>
+                            <span class="block text-center font-mono bg-white p-2 rounded-md mt-2">LM Thực Nhận = Min(30.000.000 VNĐ, [30.000.000 VNĐ * Điểm KPI / 100])</span>
+                        </li>
+                    </ul>
+                     <p>Nhiệm vụ của bạn là phân tích các nhóm dữ kiện dưới đây một cách khách quan để đưa ra một quyết định công bằng, vừa ghi nhận nỗ lực của anh An, vừa đảm bảo các mục tiêu chiến lược dài hạn của "Mầm Sống Xanh".</p>
+                </div>
+            </div>
+
+            <!-- Dữ kiện trong kỳ -->
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b pb-3 mb-4">8 Dữ kiện hoạt động Quý 3</h2>
+                <div class="space-y-6">
+                    <div class="data-group">
+                        <h3>Nhóm 1: Dữ kiện về Tài chính</h3>
+                        <p class="text-gray-700"><strong>1. Kết quả tài chính tổng quan:</strong> Tổng doanh thu đạt <strong>2.85 tỷ VNĐ</strong>. Tổng chi phí hoạt động (bao gồm lương, marketing, vận hành...) là <strong>2.4 tỷ VNĐ</strong>.</p>
+                    </div>
+                    <div class="data-group">
+                        <h3>Nhóm 2: Dữ kiện về Khách hàng</h3>
+                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                            <li value="2"><strong>Tình hình khách hàng:</strong> Tổng cộng có <strong>5.000 khách hàng</strong> đã giao dịch, trong đó ghi nhận <strong>1.400 người là khách hàng cũ</strong> quay lại mua sắm. Số khách hàng mới trong quý là <strong>1.150 người</strong>.</li>
+                            <li value="3"><strong>Phản hồi của khách hàng:</strong> Điểm đánh giá trung bình trên các nền tảng là <strong>4.3 (trên thang 5)</strong>.</li>
+                             <li value="4"><strong>Hiệu suất bán hàng:</strong> Tổng số đơn hàng thành công trong quý là <strong>10.000 đơn</strong>. (Dùng dữ kiện này cùng Doanh thu ở trên để tính AOV).</li>
+                        </ol>
+                    </div>
+                    <div class="data-group">
+                        <h3>Nhóm 3: Dữ kiện về Quy trình Nội bộ</h3>
+                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                            <li value="5"><strong>Hiệu suất vận hành:</strong> Thời gian trung bình từ lúc khách đặt hàng đến khi bàn giao cho đơn vị vận chuyển là <strong>7 giờ</strong>.</li>
+                            <li value="6"><strong>Kiểm soát chất lượng:</strong> Trong tổng số 10.000 đơn hàng, có <strong>180 đơn</strong> bị báo cáo sai sót (giao sai sản phẩm, thiếu hàng, hư hỏng).</li>
+                             <li value="7"><strong>Triển khai công nghệ mới:</strong> Công ty triển khai hệ thống quản lý quan hệ khách hàng (CRM) mới. Tỷ lệ nhân viên thực sự sử dụng hệ thống hàng ngày chỉ đạt <strong>60%</strong>.</li>
+                        </ol>
+                    </div>
+                     <div class="data-group">
+                        <h3>Nhóm 4: Dữ kiện về Học hỏi & Phát triển</h3>
+                        <ol class="list-decimal list-inside space-y-3 text-gray-700">
+                            <li value="8"><strong>Sáng kiến & Phát triển đội ngũ:</strong> Anh An đã đề xuất và triển khai thành công chiến dịch "Green Friday". Team kinh doanh có <strong>10 người</strong> (tính cả anh An). Trong quý, có <strong>1 nhân viên</strong> xin nghỉ việc. <strong>9/10 thành viên</strong> đã hoàn thành đúng hạn khóa học bắt buộc về "Bảo mật thông tin".</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bảng đánh giá KPI -->
+            <div class="card p-6">
+                <h2 class="text-2xl font-semibold text-gray-700 border-b pb-3 mb-4">Bảng Đánh Giá KPI - Trưởng Phòng Kinh Doanh</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-sm text-left text-gray-500">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                            <tr>
+                                <th class="w-2/5">Chỉ số đánh giá (KPI)</th>
+                                <th class="text-center">Trọng số</th>
+                                <th class="text-center">Kế hoạch (Mục tiêu)</th>
+                                <th class="w-1/6 text-center">Thực tế</th>
+                                <th class="text-center">% Hoàn thành</th>
+                                <th class="text-center">Điểm</th>
+                            </tr>
+                        </thead>
+                        <tbody id="kpi-table-body">
+                            <!-- Financial -->
+                            <tr class="bg-blue-50"><td colspan="6" class="font-semibold text-blue-800">I. Yếu tố Tài chính (25%)</td></tr>
+                            <tr>
+                                <td>1. Lợi nhuận (Doanh thu - Chi phí) (tỷ VNĐ)</td>
+                                <td class="text-center font-medium">15%</td>
+                                <td class="text-center">0.5</td>
+                                <td><input type="number" step="0.01" data-target="0.5" data-weight="15" class="input-kpi" id="kpi-f1"></td>
+                                <td class="text-center font-medium" id="percent-f1">-</td>
+                                <td class="text-center font-bold text-blue-600" id="score-f1">-</td>
+                            </tr>
+                            <tr>
+                                <td>2. Tỷ lệ Chi phí / Doanh thu (%) (Thấp hơn là tốt hơn)</td>
+                                <td class="text-center font-medium">10%</td>
+                                <td class="text-center">&le; 85</td>
+                                <td><input type="number" step="0.1" data-target="85" data-weight="10" data-inverse="true" class="input-kpi" id="kpi-f2"></td>
+                                <td class="text-center font-medium" id="percent-f2">-</td>
+                                <td class="text-center font-bold text-blue-600" id="score-f2">-</td>
+                            </tr>
+                             <!-- Customer -->
+                            <tr class="bg-green-50"><td colspan="6" class="font-semibold text-green-800">II. Yếu tố Khách hàng (35%)</td></tr>
+                            <tr>
+                                <td>3. Số lượng khách hàng mới</td>
+                                <td class="text-center font-medium">10%</td>
+                                <td class="text-center">1000</td>
+                                <td><input type="number" data-target="1000" data-weight="10" class="input-kpi" id="kpi-c1"></td>
+                                <td class="text-center font-medium" id="percent-c1">-</td>
+                                <td class="text-center font-bold text-green-600" id="score-c1">-</td>
+                            </tr>
+                            <tr>
+                                <td>4. Tỷ lệ khách hàng quay lại (%)</td>
+                                <td class="text-center font-medium">10%</td>
+                                <td class="text-center">30</td>
+                                <td><input type="number" data-target="30" data-weight="10" class="input-kpi" id="kpi-c2"></td>
+                                <td class="text-center font-medium" id="percent-c2">-</td>
+                                <td class="text-center font-bold text-green-600" id="score-c2">-</td>
+                            </tr>
+                            <tr>
+                                <td>5. Điểm hài lòng của khách hàng (CSAT) (trên thang 5)</td>
+                                <td class="text-center font-medium">10%</td>
+                                <td class="text-center">&ge; 4.5</td>
+                                <td><input type="number" step="0.1" data-target="4.5" data-weight="10" class="input-kpi" id="kpi-c3"></td>
+                                <td class="text-center font-medium" id="percent-c3">-</td>
+                                <td class="text-center font-bold text-green-600" id="score-c3">-</td>
+                            </tr>
+                             <tr>
+                                <td>6. Giá trị đơn hàng trung bình (AOV) (nghìn VNĐ)</td>
+                                <td class="text-center font-medium">5%</td>
+                                <td class="text-center">&ge; 300</td>
+                                <td><input type="number" step="1" data-target="300" data-weight="5" class="input-kpi" id="kpi-c4"></td>
+                                <td class="text-center font-medium" id="percent-c4">-</td>
+                                <td class="text-center font-bold text-green-600" id="score-c4">-</td>
+                            </tr>
+                             <!-- Operation -->
+                            <tr class="bg-yellow-50"><td colspan="6" class="font-semibold text-yellow-800">III. Yếu tố Quy trình nội bộ (20%)</td></tr>
+                            <tr>
+                                <td>7. Thời gian xử lý đơn hàng (giờ) (Thấp hơn là tốt hơn)</td>
+                                <td class="text-center font-medium">5%</td>
+                                <td class="text-center">&le; 8</td>
+                                <td><input type="number" data-target="8" data-weight="5" data-inverse="true" class="input-kpi" id="kpi-o1"></td>
+                                <td class="text-center font-medium" id="percent-o1">-</td>
+                                <td class="text-center font-bold text-yellow-600" id="score-o1">-</td>
+                            </tr>
+                            <tr>
+                                <td>8. Tỷ lệ sai sót đơn hàng (%) (Thấp hơn là tốt hơn)</td>
+                                <td class="text-center font-medium">5%</td>
+                                <td class="text-center">&le; 2</td>
+                                <td><input type="number" step="0.1" data-target="2" data-weight="5" data-inverse="true" class="input-kpi" id="kpi-o2"></td>
+                                <td class="text-center font-medium" id="percent-o2">-</td>
+                                <td class="text-center font-bold text-yellow-600" id="score-o2">-</td>
+                            </tr>
+                            <tr>
+                                <td>9. Tỷ lệ áp dụng công nghệ mới (CRM) (%)</td>
+                                <td class="text-center font-medium">10%</td>
+                                <td class="text-center">&ge; 80</td>
+                                <td><input type="number" step="1" data-target="80" data-weight="10" class="input-kpi" id="kpi-o3"></td>
+                                <td class="text-center font-medium" id="percent-o3">-</td>
+                                <td class="text-center font-bold text-yellow-600" id="score-o3">-</td>
+                            </tr>
+                             <!-- People -->
+                            <tr class="bg-purple-50"><td colspan="6" class="font-semibold text-purple-800">IV. Yếu tố Học hỏi & Phát triển (20%)</td></tr>
+                            <tr>
+                                <td>10. Sáng kiến cải tiến được áp dụng</td>
+                                <td class="text-center font-medium">5%</td>
+                                <td class="text-center">1</td>
+                                <td><input type="number" data-target="1" data-weight="5" class="input-kpi" id="kpi-p1"></td>
+                                <td class="text-center font-medium" id="percent-p1">-</td>
+                                <td class="text-center font-bold text-purple-600" id="score-p1">-</td>
+                            </tr>
+                             <tr>
+                                <td>11. Tỷ lệ nhân viên hoàn thành đào tạo bắt buộc (%)</td>
+                                <td class="text-center font-medium">5%</td>
+                                <td class="text-center">100</td>
+                                <td><input type="number" data-target="100" data-weight="5" class="input-kpi" id="kpi-p2"></td>
+                                <td class="text-center font-medium" id="percent-p2">-</td>
+                                <td class="text-center font-bold text-purple-600" id="score-p2">-</td>
+                            </tr>
+                             <tr>
+                                <td>12. Tỷ lệ nhân viên gắn bó (%) (100% - Tỷ lệ nghỉ việc)</td>
+                                <td class="text-center font-medium">10%</td>
+                                <td class="text-center">&ge; 95</td>
+                                <td><input type="number" data-target="95" data-weight="10" class="input-kpi" id="kpi-p3"></td>
+                                <td class="text-center font-medium" id="percent-p3">-</td>
+                                <td class="text-center font-bold text-purple-600" id="score-p3">-</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="bg-gray-200 font-bold text-gray-800">
+                                <td colspan="4" class="text-right">TỔNG ĐIỂM KPI</td>
+                                <td class="text-center" id="total-percent"></td>
+                                <td class="text-center text-xl" id="total-score">0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                 <div class="mt-6 text-center">
+                    <button id="submit-btn" class="btn-primary" disabled>Hoàn Thành Đánh Giá</button>
+                </div>
+            </div>
+
+            <!-- Kết quả -->
+            <div id="result-section" class="hidden">
+                <div class="card p-6">
+                    <h2 class="text-2xl font-semibold text-gray-700 border-b pb-3 mb-4">Kết Quả Đánh Giá & Thù Lao</h2>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Kết quả của bạn -->
+                        <div class="result-card" id="player-result-card">
+                            <h3 class="font-bold text-lg text-center mb-3">Quyết Định Của Bạn</h3>
+                            <div class="text-center space-y-2">
+                                <p class="text-gray-600">Tổng điểm KPI:</p>
+                                <p class="text-4xl font-bold" id="player-score">0.00</p>
+                                <p class="text-gray-600 mt-4">Xếp loại:</p>
+                                <p class="font-semibold text-xl" id="player-rank">-</p>
+                                <p class="text-gray-600 mt-4">Thưởng Hiệu Suất Quý 3 (Lương mềm):</p>
+                                <p class="text-3xl font-bold text-blue-600" id="player-bonus">0 VNĐ</p>
+                            </div>
+                            <div class="text-center mt-4 pt-4 border-t border-gray-200">
+                                <p class="text-sm text-gray-500">Hoàn thành lúc:</p>
+                                <p class="text-sm font-semibold text-gray-700" id="completion-time">-</p>
+                            </div>
+                        </div>
+                        <!-- Đánh giá của chuyên gia -->
+                        <div class="bg-gray-100 p-6 rounded-lg border border-gray-200">
+                             <h3 class="font-bold text-lg text-center mb-3 text-gray-800">Đánh Giá Tham Khảo</h3>
+                             <div class="text-center space-y-2">
+                                <p class="text-gray-600">Tổng điểm KPI:</p>
+                                <p class="text-4xl font-bold text-gray-800" id="expert-score">96.33</p>
+                                <p class="text-gray-600 mt-4">Xếp loại:</p>
+                                <p class="font-semibold text-xl text-amber-600" id="expert-rank">Khá</p>
+                                <p class="text-gray-600 mt-4">Thưởng Hiệu Suất Quý 3 (Lương mềm):</p>
+                                <p class="text-3xl font-bold text-green-600" id="expert-bonus">28.899.000 VNĐ</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 bg-indigo-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-indigo-800">Phân Tích & Giải Thích Chi Tiết</h4>
+                        <div id="expert-analysis" class="mt-2 space-y-1 text-sm text-gray-700">
+                           <p><strong>1. Lợi nhuận:</strong> 2.85 - 2.4 = 0.45 tỷ. (Kết quả/Mục tiêu = 0.45/0.5 = 90% HT) -> <strong>13.50 điểm</strong>.</p>
+                           <p><strong>2. Tỷ lệ Chi phí/Doanh thu:</strong> 2.4 / 2.85 = 84.21% (Tốt hơn mục tiêu &le;85%). (100.93% HT) -> <strong>10.09 điểm</strong>.</p>
+                           <p><strong>3. Khách hàng mới:</strong> Đạt 1150 người. (1150/1000 = 115% HT) -> <strong>11.50 điểm</strong>.</p>
+                           <p><strong>4. Tỷ lệ khách hàng quay lại:</strong> 1400 / 5000 = 28%. (28/30 = 93.33% HT) -> <strong>9.33 điểm</strong>.</p>
+                           <p><strong>5. Điểm hài lòng (CSAT):</strong> Đạt 4.3 điểm. (4.3/4.5 = 95.56% HT) -> <strong>9.56 điểm</strong>.</p>
+                           <p><strong>6. AOV:</strong> 2.85 tỷ / 10,000 đơn = 285k. (285/300 = 95% HT) -> <strong>4.75 điểm</strong>.</p>
+                           <p><strong>7. Thời gian xử lý:</strong> 7 giờ (Tốt hơn mục tiêu &le;8h). (112.5% HT) -> <strong>5.63 điểm</strong>.</p>
+                           <p><strong>8. Tỷ lệ sai sót:</strong> 180 / 10000 = 1.8% (Tốt hơn mục tiêu &le;2%). (110% HT) -> <strong>5.50 điểm</strong>.</p>
+                           <p><strong>9. Áp dụng CRM:</strong> Đạt 60%. (60/80 = 75% HT) -> <strong>7.50 điểm</strong>.</p>
+                           <p><strong>10. Sáng kiến:</strong> 1 sáng kiến được áp dụng. (1/1 = 100% HT) -> <strong>5.00 điểm</strong>.</p>
+                           <p><strong>11. Hoàn thành đào tạo:</strong> 9/10 người = 90%. (90/100 = 90% HT) -> <strong>4.50 điểm</strong>.</p>
+                           <p><strong>12. Tỷ lệ gắn bó:</strong> 1 nhân viên nghỉ / 10 người = 10% nghỉ việc => 90% gắn bó. (90/95 = 94.74% HT) -> <strong>9.47 điểm</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accuracy Score Section -->
+                <div class="card p-6 mt-8">
+                    <h2 class="text-2xl font-semibold text-gray-700 text-center">Mức Độ Chính Xác Trong Đánh Giá</h2>
+                    <div class="text-center mt-4">
+                        <p class="text-gray-600">Điểm của bạn so với đánh giá tham khảo:</p>
+                        <p class="text-6xl font-bold text-teal-500 mt-2" id="accuracy-score">0.00</p>
+                        <p class="text-gray-500 mt-1">/ 100</p>
+                        <p class="italic text-gray-600 mt-4 text-lg" id="accuracy-feedback"></p>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('.input-kpi');
+            const submitBtn = document.getElementById('submit-btn');
+            const expertScoreValue = 96.33; // Corrected Value
+            const maxBonus = 30000000;
+
+            function checkFormCompletion() {
+                let allFilled = true;
+                inputs.forEach(input => {
+                    if (input.value.trim() === '') {
+                        allFilled = false;
+                    }
+                });
+                submitBtn.disabled = !allFilled;
+            }
+
+            function calculateRow(input) {
+                const actual = parseFloat(input.value);
+                const target = parseFloat(input.dataset.target);
+                const weight = parseFloat(input.dataset.weight);
+                const isInverse = input.dataset.inverse === 'true';
+                const id = input.id.replace('kpi-', '');
+
+                const percentCell = document.getElementById(`percent-${id}`);
+                const scoreCell = document.getElementById(`score-${id}`);
+
+                if (isNaN(actual)) {
+                    percentCell.textContent = '-';
+                    scoreCell.textContent = '-';
+                    return 0;
+                }
+
+                let completionPercent;
+                if (isInverse) {
+                    if (actual <= target) {
+                        completionPercent = 100 + ((target - actual) / target) * 100;
+                    } else {
+                        completionPercent = (target / actual) * 100;
+                    }
+                } else {
+                    completionPercent = (actual / target) * 100;
+                }
+                
+                const cappedCompletion = Math.min(completionPercent, 200);
+                const score = (cappedCompletion / 100) * weight;
+                
+                percentCell.textContent = `${completionPercent.toFixed(2)}%`;
+                scoreCell.textContent = score.toFixed(2);
+
+                return score;
+            }
+
+            function calculateTotal() {
+                let totalScore = 0;
+                inputs.forEach(input => {
+                    totalScore += calculateRow(input);
+                });
+                document.getElementById('total-score').textContent = totalScore.toFixed(2);
+                checkFormCompletion();
+            }
+
+            inputs.forEach(input => {
+                input.addEventListener('input', calculateTotal);
+            });
+            
+            function getRank(score) {
+                if (score >= 120) return {rank: "Xuất sắc", cardClass: "result-excellent"};
+                if (score >= 100) return {rank: "Tốt", cardClass: "result-good"};
+                if (score >= 80) return {rank: "Khá", cardClass: "result-avg"};
+                if (score >= 60) return {rank: "Cần cải thiện", cardClass: "result-bad"};
+                return {rank: "Không đạt", cardClass: "result-bad"};
+            }
+
+            function getAccuracyFeedback(score) {
+                if (score > 95) return "Tuyệt vời! Bạn có khả năng đánh giá của một chuyên gia nhân sự.";
+                if (score > 85) return "Rất tốt! Quyết định của bạn rất sát với thực tế.";
+                if (score > 70) return "Khá! Bạn đã nắm được những điểm chính, hãy chú ý hơn đến các chi tiết nhé.";
+                return "Cần cải thiện. Việc đánh giá chính xác đòi hỏi phân tích sâu hơn các dữ kiện gây nhiễu.";
+            }
+
+            submitBtn.addEventListener('click', function() {
+                const totalScore = parseFloat(document.getElementById('total-score').textContent);
+                const playerRankInfo = getRank(totalScore);
+                
+                // Calculate bonus with a hard cap
+                const calculatedBonus = maxBonus * (totalScore / 100);
+                const finalBonus = Math.min(calculatedBonus, maxBonus);
+
+                // Update player results
+                document.getElementById('player-score').textContent = totalScore.toFixed(2);
+                document.getElementById('player-rank').textContent = playerRankInfo.rank;
+                document.getElementById('player-bonus').textContent = `${finalBonus.toLocaleString('vi-VN')} VNĐ`;
+                
+                const playerResultCard = document.getElementById('player-result-card');
+                playerResultCard.className = 'result-card';
+                playerResultCard.classList.add(playerRankInfo.cardClass);
+
+                // Calculate and update accuracy score
+                const accuracyScore = Math.max(0, 100 - Math.abs(totalScore - expertScoreValue));
+                document.getElementById('accuracy-score').textContent = accuracyScore.toFixed(2);
+                document.getElementById('accuracy-feedback').textContent = getAccuracyFeedback(accuracyScore);
+
+                // Get current time and display it
+                const now = new Date();
+                const completionTimeString = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ', Ngày ' + now.toLocaleDateString('vi-VN');
+                document.getElementById('completion-time').textContent = completionTimeString;
+
+                // Show result section and scroll
+                document.getElementById('result-section').classList.remove('hidden');
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                
+                // Disable all inputs and the button after submission
+                inputs.forEach(input => {
+                    input.disabled = true;
+                });
+                submitBtn.disabled = true;
+            });
+             
+            // Recalculate expert bonus based on corrected score
+            const expertBonusValue = maxBonus * (expertScoreValue / 100);
+            const finalExpertBonus = Math.min(expertBonusValue, maxBonus);
+            document.getElementById('expert-bonus').textContent = `${finalExpertBonus.toLocaleString('vi-VN')} VNĐ`;
+        });
+    </script>
+</body>
+</html>
+
